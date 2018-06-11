@@ -2,7 +2,7 @@
   "name": "puppet-auditbeat",
   "version": "0.1.0",
   "author": "norisnetwork",
-  "summary": "This module installs and configures the Auditbeat shipper by Elastic. It has been tested on Puppet 5.x and on the following OSes: Debian 9.1, CentOS 7.3, Ubuntu 16.04",
+  "summary": "This module installs and configures the Auditbeat shipper by Elastic.",
   "license": "Apache-2.0",
   "source": "https://github.com/noris-network/puppet-auditbeat",
   "dependencies": [
