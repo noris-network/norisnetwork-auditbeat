@@ -1,5 +1,5 @@
 {
-  "name": "puppet-auditbeat",
+  "name": "norisnetwork-auditbeat",
   "version": "0.1.0",
   "author": "norisnetwork",
   "summary": "This module installs and configures the Auditbeat shipper by Elastic.",
