@@ -14,6 +14,7 @@ class auditbeat::config {
     'name'                      => $auditbeat::beat_name ,
     'fields_under_root'         => $auditbeat::fields_under_root,
     'fields'                    => $auditbeat::fields,
+    'xpack'                     => $auditbeat::xpack,
     'tags'                      => $auditbeat::tags,
     'queue'                     => $auditbeat::queue,
     'logging'                   => $auditbeat::logging,

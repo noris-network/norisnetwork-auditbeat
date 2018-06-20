@@ -135,6 +135,7 @@ Installation and configuration.
 * `disable_configtest`: [Boolean] whether to check if the configuration file is valid before attempting to run the service (default: true).
 * `tags`: [Array[Strings]]: the tags to add to each document (default: undef).
 * `fields`: [Hash] the fields to add to each document (default: undef).
+* `xpack`: [Hash] the configuration to export internal metrics to an Elasticsearch monitoring instance  (default: undef).
 * `modules`: [Array[Hash]] the required [modules] (https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-modules.html) to load (default: undef).
 * `processors`: [Array[Hash]] the optional [processors] (https://www.elastic.co/guide/en/beats/auditbeat/current/defining-processors.html) for event enhancement (default: undef).
 

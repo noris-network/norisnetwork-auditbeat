@@ -49,6 +49,9 @@
 # * `fields`: 
 # [Hash] the fields to add to each document (default: undef).
 #
+# * `xpack`:
+# [Hash] the configuration of x-pack monitoring (default: undef).
+#
 # * `modules`: 
 # [Array[Hash]] the required [modules] (https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-modules.html) to load (default: undef).
 #
@@ -125,6 +128,7 @@ class auditbeat (
   Optional[Hash] $fields                                              = undef,
   Optional[Array[Hash]] $modules                                      = undef,
   Optional[Array[Hash]] $processors                                   = undef,
+  Optional[Hash] $xpack                                               = undef,
 ) {
 
   contain auditbeat::repo
