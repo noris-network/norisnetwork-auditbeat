@@ -34,10 +34,3 @@ branches:
   - "/^v\\d/"
 notifications:
   email: false
-deploy:
-  provider: puppetforge
-  user: norisnetwork
-  password:
-    secure: "Xc/frBLUUarskdUuUo87OmpjemwDOyFW26j2mFQe6zOqkTlvfS4VCRDo1H7+/LKjCVlLRCWFjTEugSBKIC6VAdLzb9M15YjjdV8SbbwodyBlD/Bv0o5ACPoOOvHdfEg/UkX25GYJO4Jb5K+tUAXC+neMTuuxKV7WgqpRvEX10LeYjrgjXDTKL/SOYDcQN8yu8fGGiD342DjOA/0sJXIciFE9eWvU2NyNhQEMn/M61z1MK5QSJ9qgokhM//gj3BxRIeMMrG6duBxLMseQo6PhJ7rWXKpgfBgxbYT8jhDL58NCtWPlIges8c4dxUzSxz1rn8pqHchUzcw3LGPMBbiypC0oh90o7PbjBehwMbsby8b+/jmNrlHG7tryDDFZRJptygNcI46nAc1RUpGaG9DrefOcCdPCQtxZhLmKhJtVEF520Wo4yFbBQNTCBXrVoDPaFTCD8/CQiHjRfQiaj67vnUeAiq3vo087NXE58/gyv4iBC4k7tV332NpsIU+yIG5/3AKqNlrW5o4JbO/jmIIoWsHEAeasvhSIAV90aLXnZmB+iEX9eh9j7LnJ5OK4hjTBc71hrheRgo3GH2Ozr6xG4W1r4EgL7h5cuiPlc0yg/ciAlmhTNIXrmkmQ+iJsvd9bq1il51/GxPvhYIIejAIlH1H8gXP6VnkrxSUa5H1xPeA="
-  on:
-    all_branches: true
