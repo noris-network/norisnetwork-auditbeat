@@ -33,7 +33,7 @@ The module can be installed manually, typing `puppet module install noris-auditb
 
 `auditbeat` requires at least the `outputs` and `modules` sections in order to start. Please refer to the software documentation to find out the [available modules] (https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-modules.html) and the [supported outputs] (https://www.elastic.co/guide/en/beats/auditbeat/current/configuring-output.html). On the other hand, the sections [logging] (https://www.elastic.co/guide/en/beats/auditbeat/current/configuration-logging.html) and [queue] (https://www.elastic.co/guide/en/beats/auditbeat/current/configuring-internal-queue.html) already contains meaningful default values.
 
-A basic setup configuring the `file_integrity` module to check some basich paths and writing the results directly in Elasticsearch.
+A basic setup configuring the `file_integrity` module to check some paths and writing the results directly in Elasticsearch.
 
 ```puppet
 class{'auditbeat':
@@ -50,6 +50,30 @@ class{'auditbeat':
         'index' => 'auditbeat-%{+YYYY.MM.dd}',
       },
     },
+```
+
+The same example using Hiera:
+
+```
+classes:
+  include:
+    - 'auditbeat'
+
+auditbeat::modules:
+  - module: 'file_integrity'
+    enabled: true
+    paths:
+      - '/bin'
+      - '/usr/bin'
+      - '/sbin'
+      - '/usr/sbin'
+      - '/etc'
+
+auditbeat::outputs:
+  elasticsearch:
+    hosts:
+      - 'http://localhost:9200'
+    index: "auditbeat-%%{}{+YYYY.MM.dd}"
 ```
 
 ## Usage
@@ -70,11 +94,36 @@ class{'auditbeat':
     outputs => {
       'redis' => {
         'hosts' => ['localhost:6379', 'other_redis:6379'],
-        'index' => 'auditbeat-%{+YYYY.MM.dd}',
+        'key' => 'auditbeat',
       },
     },
 ```
+or, using Hiera
+
+```
+classes:
+  include:
+    - 'auditbeat'
+
+auditbeat::modules:
+  - module: 'file_integrity'
+    enabled: true
+    paths:
+      - '/bin'
+      - '/usr/bin'
+      - '/sbin'
+      - '/usr/sbin'
+      - '/etc'
+
+auditbeat::outputs:
+  elasticsearch:
+    hosts:
+      - 'localhost:6379'
+      - 'itger:redis:6379'
+    index: 'auditbeat'
+```
 Add the `auditd` module to the configuration, specifying a rule to detect 32 bit system calls. Output to Elasticsearch.
+
 ```puppet
 class{'auditbeat':
     modules => [
@@ -95,6 +144,33 @@ class{'auditbeat':
         'index' => 'auditbeat-%{+YYYY.MM.dd}',
       },
     },
+```
+In Hiera format it would look like:
+
+```
+classes:
+  include:
+    - 'auditbeat'
+
+auditbeat::modules:
+  - module: 'file_integrity'
+    enabled: true
+    paths:
+      - '/bin'
+      - '/usr/bin'
+      - '/sbin'
+      - '/usr/sbin'
+      - '/etc'
+  - module: 'auditd'
+    enabled: true
+    audit_rules: |
+      -a always,exit -F arch=b32 -S all -F key=32bit-abi
+
+auditbeat::outputs:
+  elasticsearch:
+    hosts:
+      - 'http://localhost:9200'
+    index: "auditbeat-%%{}{+YYYY.MM.dd}"
 ```
 
 
