@@ -1,89 +1,48 @@
-# Class: auditbeat
-# ================
+# Installs and configures auditbeat
 #
-# * `beat_name`: 
-# [String] the name of the shipper (default: the *hostname*).
+# @summary Installs and configures auditbeat
 #
-# * `fields_under_root`: 
-# [Boolean] whether to add the custom fields to the root of the document (default is *false*).
-#
-# * `queue`: 
-# [Hash] auditbeat's internal queue, before the events publication (default is *4096* events in *memory* with immediate flush).
-#
-# * `logging`: 
-# [Hash] the auditbeat's logfile configuration (default: writes to `/var/log/auditbeat/auditbeat`, 
-# maximum 7 files, rotated when bigger than 10 MB).
-#
-# * `outputs`: 
-# [Hash] the options of the mandatory [outputs] (https://www.elastic.co/guide/en/beats/auditbeat/current/configuring-output.html) section of the configuration file (default: undef).
-#
-# * `major_version`: 
-# [Enum] the major version of the package to install (default: '6', the only accepted value. Implemented for future reference).
-#
-# * `ensure`: 
-# [Enum 'present', 'absent']: whether Puppet should manage `auditbeat` or not (default: 'present').
-#
-# * `service_provider`: 
-# [Enum 'systemd', 'init'] which boot framework to use to install and manage the service (default: 'systemd').
-#
-# * `service_ensure`: 
-# [Enum 'enabled', 'running', 'disabled', 'unmanaged'] the status of the audit service (default 'enabled'). In more details:
-#     * *enabled*: service is running and started at every boot;
-#     * *running*: service is running but not started at boot time;
-#     * *disabled*: service is not running and not started at boot time;
-#     * *unamanged*: Puppet does not manage the service.
-#
-# * `package_ensure`: 
-# [String] the package version to install. It could be 'latest' (for the newest release) or a specific version 
-# number, in the format *x.y.z*, i.e., *6.2.0* (default: latest).
-#
-# * `config_file_mode`: 
-# [String] the octal file mode of the configuration file `/etc/auditbeat/auditbeat.yaml` (default: 0644).
-#
-# * `disable_configtest`: 
-# [Boolean] whether to check if the configuration file is valid before attempting to run the service (default: true).
-#
-# * `tags`: 
-# [Array[Strings]]: the tags to add to each document (default: undef).
-#
-# * `fields`: 
-# [Hash] the fields to add to each document (default: undef).
-#
-# * `xpack`:
-# [Hash] the configuration of x-pack monitoring (default: undef).
-#
-# * `modules`: 
-# [Array[Hash]] the required [modules] (https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-modules.html) to load (default: undef).
-#
-# * `processors`: 
-# [Array[Hash]] the optional [processors] (https://www.elastic.co/guide/en/beats/auditbeat/current/defining-processors.html) for event enhancement (default: undef).
-#
-# Examplses
-# ================
-#
-# @example
-#
-# class{'auditbeat':
-#     modules => [
-#       {
-#         'module' => 'file_integrity',
-#         'enabled' => true,
-#         'paths' => ['/bin', '/usr/bin', '/sbin', '/usr/sbin', '/etc'],
-#       },
-#       {
-#         'module' => 'auditd',
-#         'enabled' => true,
-#         'audit_rules' => '-a always,exit -F arch=b32 -S all -F key=32bit-abi',
-#       },
-#     ],
-#     outputs => {
-#       'elasticsearch' => {
-#         'hosts' => ['http://localhost:9200'],
-#         'index' => 'auditbeat-%{+YYYY.MM.dd}',
-#       },
+# @example Basic configuration with two modules and output to Elasticsearch
+#  class{'auditbeat':
+#    modules => [
+#      {
+#       'module' => 'file_integrity',
+#       'enabled' => true,
+#       'paths' => ['/bin', '/usr/bin', '/sbin', '/usr/sbin', '/etc'],
+#      },
+#      {
+#       'module' => 'auditd',
+#       'enabled' => true,
+#       'audit_rules' => '-a always,exit -F arch=b32 -S all -F key=32bit-abi',
+#      },
+#    ],
+#    outputs => {
+#     'elasticsearch' => {
+#       'hosts' => ['http://localhost:9200'],
+#       'index' => 'auditbeat-%{+YYYY.MM.dd}',
 #     },
-
-
+#    },
+#  }
+#
+# @param beat_name the name of the shipper (defaults to the hostname).
+# @param fields_under_root whether to add the custom fields to the root of the document.
+# @param queue auditbeat's internal queue.
+# @param logging the auditbeat's logfile configuration.
+# @param outputs the mandatory "outputs" section of the configuration file.
+# @param major_version the major version of the package to install.
+# @param ensure whether Puppet should manage auditbeat or not.
+# @param service_provider which boot framework to use to install and manage the service.
+# @param manage_repo whether to add the elastic upstream repo to the package manager.
+# @param service_ensure the status of the auditbeat service.
+# @param package_ensure the package version to install.
+# @param config_file_mode the permissions of the main configuration file.
+# @param disable_configtest whether to check if the configuration file is valid before running the service.
+# @param tags the tags to add to each document.
+# @param fields the fields to add to each document.
+# @param xpack the configuration of x-pack monitoring.
+# @param modules the required modules to load.
+# @param processors the optional processors for events enhancement.
+#
 class auditbeat (
   String $beat_name                                                   = $::hostname,
   Boolean $fields_under_root                                          = false,
