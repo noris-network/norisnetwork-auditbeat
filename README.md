@@ -237,18 +237,6 @@ This module does not load the index template in Elasticsearch nor the auditbeat 
 
 The option `manage_repo` does not remove the repo file, even if set to *false*. Please delete it manually.
 
-The module allows to set up the
-[x-pack section] (https://www.elastic.co/guide/en/beats/auditbeat/current/monitoring.html)
-of the configuration file, in order to set the internal statistics of packetbeat to an Elasticsearch cluster.
-In order to do that the parameter `package_ensure` should be set to:
-
-* `latest`
-* `6.1.0` or a higher version
-
-Unfortunately when `package_ensure` is equal to `installed` or `present`, the `x-pack` section is removed,
-beacuse there is no way to know which version of the package is going to be handled (unless a specific fact is
-added).
-
 
 ## Development
 
