@@ -207,6 +207,7 @@ Installation and configuration.
 	* *disabled*: service is not running and not started at boot time;
 	* *unamanged*: Puppet does not manage the service.
 * `package_ensure`: [String] the package version to install. It could be 'latest' (for the newest release) or a specific version number, in the format *x.y.z*, i.e., *6.2.0* (default: latest).
+* `manage_repo`: [Boolean] whether to add the elastic upstream repo to the package manager (default: true).
 * `config_file_mode`: [String] the octal file mode of the configuration file `/etc/auditbeat/auditbeat.yml` (default: 0644).
 * `disable_configtest`: [Boolean] whether to check if the configuration file is valid before attempting to run the service (default: true).
 * `tags`: [Array[Strings]]: the tags to add to each document (default: undef).
@@ -234,8 +235,20 @@ Management of the auditbeat service.
 
 This module does not load the index template in Elasticsearch nor the auditbeat example dashboards in Kibana. These two tasks should be carried out manually. Please follow the documentation to [manually load the index template in Elasticsearch] (https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-template.html#load-template-manually-alternate) and to [import the auditbeat dashboards in Kibana] (https://www.elastic.co/guide/en/beats/devguide/6.2/import-dashboards.html).
 
-The option `manage_repo` does not work properly on SLES. This means that, even if set to *false*, the repo file 
-`/etc/zypp/repos.d/beats.repo` will be created and the corresponding repo will be enabled.
+The option `manage_repo` does not remove the repo file, even if set to *false*. Please delete it manually.
+
+The module allows to set up the
+[x-pack section] (https://www.elastic.co/guide/en/beats/auditbeat/current/monitoring.html)
+of the configuration file, in order to set the internal statistics of packetbeat to an Elasticsearch cluster.
+In order to do that the parameter `package_ensure` should be set to:
+
+* `latest`
+* `6.1.0` or a higher version
+
+Unfortunately when `package_ensure` is equal to `installed` or `present`, the `x-pack` section is removed,
+beacuse there is no way to know which version of the package is going to be handled (unless a specific fact is
+added).
+
 
 ## Development
 
