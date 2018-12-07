@@ -1,17 +1,16 @@
-sudo: false
-dist: trusty
+---
+dist: xenial
 language: ruby
 cache: bundler
 before_install:
-- bundle -v
-- rm -f Gemfile.lock
-- gem update --system
-- gem update bundler
-- gem --version
-- bundle -v
+  - bundle -v
+  - rm -f Gemfile.lock
+  - gem update --system $RUBYGEMS_VERSION
+  - gem --version
+  - bundle -v
 script:
-- bundle exec rake $CHECK
-bundler_args: "--without system_tests"
+  - 'bundle exec rake $CHECK'
+bundler_args: --without system_tests
 rvm:
 - 2.5.3
 env:
@@ -32,7 +31,7 @@ matrix:
     rvm: 2.4.1
 branches:
   only:
-  - master
-  - "/^v\\d/"
+    - master
+    - /^v\d/
 notifications:
   email: false

@@ -7,16 +7,31 @@ describe 'auditbeat', 'type' => 'class' do
 
       it { is_expected.to compile }
       it { is_expected.to create_class('auditbeat') }
+      it { is_expected.to create_class('auditbeat::repo') }
       it { is_expected.to create_class('auditbeat::install') }
       it { is_expected.to create_class('auditbeat::config') }
       it { is_expected.to create_class('auditbeat::service') }
       describe 'with ensure present' do
         let(:params) { { 'ensure' => 'present' } }
-
         it do
           is_expected.to contain_package('auditbeat').with(
             'ensure' => 'latest',
           )
+        end
+        case facts[:osfamily]
+        when 'Debian'
+          it do
+            is_expected.to contain_Apt__Source('beats')
+          end
+        when 'RedHat'
+          it do
+            is_expected.to contain_Yumrepo('beats')
+          end
+        when 'Suse'
+          it do
+            is_expected.to contain_exec('topbeat_suse_import_gpg')
+            is_expected.to contain_Zypprepo('beats')
+          end
         end
       end
       describe 'with ensure absent' do
