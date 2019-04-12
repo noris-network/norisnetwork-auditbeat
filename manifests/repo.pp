@@ -7,13 +7,10 @@ class auditbeat::repo {
     case $facts['osfamily'] {
       'Debian': {
         include ::apt
-
-        $download_url = 'https://artifacts.elastic.co/packages/6.x/apt'
-
         if !defined(Apt::Source['beats']) {
           apt::source{'beats':
             ensure   => $auditbeat::ensure,
-            location => $download_url,
+            location => 'https://artifacts.elastic.co/packages/6.x/apt',
             release  => 'stable',
             repos    => 'main',
             key      => {
@@ -24,14 +21,11 @@ class auditbeat::repo {
         }
       }
       'RedHat': {
-
-        $download_url = 'https://artifacts.elastic.co/packages/6.x/yum'
-
         if !defined(Yumrepo['beats']) {
           yumrepo{'beats':
             ensure   => $auditbeat::ensure,
             descr    => 'Elastic repository for 6.x packages',
-            baseurl  => $download_url,
+            baseurl  => 'https://artifacts.elastic.co/packages/6.x/yum',
             gpgcheck => 1,
             gpgkey   => 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             enabled  => 1,
@@ -39,9 +33,6 @@ class auditbeat::repo {
         }
       }
       'SuSe': {
-
-        $download_url = 'https://artifacts.elastic.co/packages/6.x/yum'
-
         exec { 'topbeat_suse_import_gpg':
           command => '/usr/bin/rpmkeys --import https://artifacts.elastic.co/GPG-KEY-elasticsearch',
           unless  => '/usr/bin/test $(rpm -qa gpg-pubkey | grep -i "D88E42B4" | wc -l) -eq 1 ',
@@ -49,7 +40,7 @@ class auditbeat::repo {
         }
         if !defined (Zypprepo['beats']) {
           zypprepo{'beats':
-            baseurl     => $download_url,
+            baseurl     => 'https://artifacts.elastic.co/packages/6.x/yum',
             enabled     => 1,
             autorefresh => 1,
             name        => 'beats',

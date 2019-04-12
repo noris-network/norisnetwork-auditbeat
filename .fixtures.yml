@@ -6,6 +6,6 @@ fixtures:
      stdlib: "puppetlabs/stdlib"
      apt: "puppetlabs/apt"
      zypp: "puppet/zypprepo"
-     yumrepo_core: "puppetlabs/yumrepo_core"
+     yumrepo: "puppetlabs/yumrepo_core"
   symlinks:
      auditbeat: "#{source_dir}"
