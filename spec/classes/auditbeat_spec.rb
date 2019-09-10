@@ -13,6 +13,7 @@ describe 'auditbeat', 'type' => 'class' do
       it { is_expected.to create_class('auditbeat::service') }
       describe 'with ensure present' do
         let(:params) { { 'ensure' => 'present' } }
+
         it do
           is_expected.to contain_package('auditbeat').with(
             'ensure' => 'latest',
