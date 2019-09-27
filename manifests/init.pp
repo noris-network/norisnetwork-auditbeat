@@ -42,6 +42,7 @@
 # @param xpack the configuration of x-pack monitoring.
 # @param modules the required modules to load.
 # @param processors the optional processors for events enhancement.
+# @param setup the configuration of the setup namespace (kibana, dashboards, template, etc.)
 #
 class auditbeat (
   String $beat_name                                                   = $::hostname,
@@ -88,6 +89,7 @@ class auditbeat (
   Optional[Array[Hash]] $modules                                                      = undef,
   Optional[Array[Hash]] $processors                                                   = undef,
   Optional[Hash] $xpack                                                               = undef,
+  Optional[Hash] $setup                                                               = undef,
 ) {
 
   contain auditbeat::repo

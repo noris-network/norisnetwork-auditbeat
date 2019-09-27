@@ -20,6 +20,7 @@ class auditbeat::config {
     'logging'                   => $auditbeat::logging,
     'output'                    => $auditbeat::outputs,
     'processors'                => $auditbeat::processors,
+    'setup'                     => $auditbeat::setup,
     'auditbeat'                 => {
       'modules'                 => $auditbeat::modules,
     },
