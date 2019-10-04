@@ -2,7 +2,9 @@
 # @api private
 #
 # @summary It manages the package repositories to isntall auditbeat
-class auditbeat::repo {
+class auditbeat::repo (
+  $major_version = $::auditbeat::major_version,
+){
   if ($auditbeat::manage_repo == true) and ($auditbeat::ensure == 'present') {
     case $facts['osfamily'] {
       'Debian': {
@@ -10,7 +12,7 @@ class auditbeat::repo {
         if !defined(Apt::Source['beats']) {
           apt::source{'beats':
             ensure   => $auditbeat::ensure,
-            location => 'https://artifacts.elastic.co/packages/6.x/apt',
+            location => "https://artifacts.elastic.co/packages/${major_version}.x/apt",
             release  => 'stable',
             repos    => 'main',
             key      => {
@@ -24,8 +26,8 @@ class auditbeat::repo {
         if !defined(Yumrepo['beats']) {
           yumrepo{'beats':
             ensure   => $auditbeat::ensure,
-            descr    => 'Elastic repository for 6.x packages',
-            baseurl  => 'https://artifacts.elastic.co/packages/6.x/yum',
+            descr    => "Elastic repository for ${major_version}.x packages",
+            baseurl  => "https://artifacts.elastic.co/packages/${major_version}.x/yum",
             gpgcheck => 1,
             gpgkey   => 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             enabled  => 1,
@@ -40,7 +42,7 @@ class auditbeat::repo {
         }
         if !defined (Zypprepo['beats']) {
           zypprepo{'beats':
-            baseurl     => 'https://artifacts.elastic.co/packages/6.x/yum',
+            baseurl     => "https://artifacts.elastic.co/packages/${major_version}.x/yum",
             enabled     => 1,
             autorefresh => 1,
             name        => 'beats',
