@@ -20,6 +20,9 @@ class auditbeat::repo (
               source => 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             },
           }
+          if $auditbeat::ensure == 'present' {
+            Class['apt::update'] -> Package['auditbeat']
+          }
         }
       }
       'RedHat': {
