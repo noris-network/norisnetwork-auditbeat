@@ -1,95 +1,41 @@
 ---
 stages:
-  - test_puppet4
-  - test_puppet5
-  - test_puppet6
+  - syntax
+  - unit
+
+cache:
+  paths:
+    - vendor/bundle
 
 before_script:
   - bundle -v
   - rm Gemfile.lock || true
-  - gem update --system
-  - gem update bundler
+  - gem update --system $RUBYGEMS_VERSION
   - gem --version
   - bundle -v
-  - bundle install --without system_tests
+  - bundle install --without system_tests --path vendor/bundle --jobs $(nproc)
 
-rubocop-puppet4:
-  stage: test_puppet4
-  image: ruby:2.3
+syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop-Ruby 2.5.3-Puppet ~> 6:
+  stage: syntax
+  image: ruby:2.5.3
   script:
-    - bundle exec rake rubocop
-
-syntax-puppet4:
-  stage: test_puppet4
-  image: ruby:2.3
-  script:
-    - bundle exec rake syntax lint
-
-metadata-puppet4:
-  stage: test_puppet4
-  image: ruby:2.3
-  script:
-    - bundle exec rake metadata_lint
-
-rspec-puppet-puppet4:
-  stage: test_puppet4
-  image: ruby:2.3
+    - bundle exec rake syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop
   variables:
-    PUPPET_GEM_VERSION: ~> 4.0
-  script:
-    - bundle update
-    - bundle exec rake spec
+    PUPPET_GEM_VERSION: '~> 6'
 
-rubocop-puppet5:
-  stage: test_puppet5
-  image: ruby:2.4
+parallel_spec-Ruby 2.5.3-Puppet ~> 6:
+  stage: unit
+  image: ruby:2.5.3
   script:
-    - bundle exec rake rubocop
-
-syntax-puppet5:
-  stage: test_puppet5
-  image: ruby:2.4
-  script:
-    - bundle exec rake syntax lint
-
-metadata-puppet5:
-  stage: test_puppet5
-  image: ruby:2.4
-  script:
-    - bundle exec rake metadata_lint
-
-rspec-puppet-puppet5:
-  stage: test_puppet5
-  image: ruby:2.4
+    - bundle exec rake parallel_spec
   variables:
-    PUPPET_GEM_VERSION: ~> 5.0
-  script:
-    - bundle update
-    - bundle exec rake spec
+    PUPPET_GEM_VERSION: '~> 6'
 
-rubocop-puppet6:
-  stage: test_puppet6
-  image: ruby:2.5
+parallel_spec-Ruby 2.4.5-Puppet ~> 5:
+  stage: unit
+  image: ruby:2.4.5
   script:
-    - bundle exec rake rubocop
-
-syntax-puppet6:
-  stage: test_puppet6
-  image: ruby:2.5
-  script:
-    - bundle exec rake syntax lint
-
-metadata-puppet6:
-  stage: test_puppet6
-  image: ruby:2.5
-  script:
-    - bundle exec rake metadata_lint
-
-rspec-puppet-puppet6:
-  stage: test_puppet6
-  image: ruby:2.5
+    - bundle exec rake parallel_spec
   variables:
-    PUPPET_GEM_VERSION: ~> 6.0
-  script:
-    - bundle update
-    - bundle exec rake spec
+    PUPPET_GEM_VERSION: '~> 5'
+
