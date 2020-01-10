@@ -32,12 +32,12 @@ describe 'auditbeat', 'type' => 'class' do
           )
         end
       end
-      describe 'with version 6.2.0' do
-        let(:params) { { 'package_ensure' => '6.2.0' } }
+      describe 'with version 7.5.1' do
+        let(:params) { { 'package_ensure' => '7.5.1' } }
 
         it do
           is_expected.to contain_package('auditbeat').with(
-            'ensure' => '6.2.0',
+            'ensure' => '7.5.1',
           )
         end
       end
@@ -85,7 +85,7 @@ describe 'auditbeat', 'type' => 'class' do
           it do
             is_expected.to contain_yumrepo('beats').with(
               'ensure' => 'present',
-              'baseurl' => 'https://artifacts.elastic.co/packages/6.x/yum',
+              'baseurl' => 'https://artifacts.elastic.co/packages/7.x/yum',
               'gpgkey' => 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
@@ -101,7 +101,7 @@ describe 'auditbeat', 'type' => 'class' do
               'gpgcheck' => 1,
               'name' => 'beats',
               'type' => 'yum',
-              'baseurl' => 'https://artifacts.elastic.co/packages/6.x/yum',
+              'baseurl' => 'https://artifacts.elastic.co/packages/7.x/yum',
               'gpgkey' => 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
@@ -113,7 +113,7 @@ describe 'auditbeat', 'type' => 'class' do
           it do
             is_expected.to contain_apt__source('beats').with(
               'ensure' => 'present',
-              'location' => 'https://artifacts.elastic.co/packages/6.x/apt',
+              'location' => 'https://artifacts.elastic.co/packages/7.x/apt',
               'release' => 'stable',
               'repos' => 'main',
               'key' => {
