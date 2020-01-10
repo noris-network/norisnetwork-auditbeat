@@ -1,10 +1,21 @@
 # auditbeat::repo
 # @api private
 #
-# @summary It manages the package repositories to isntall auditbeat
-class auditbeat::repo (
-  $major_version = $::auditbeat::major_version,
-){
+# @summary Manages the package repositories on the target nodes to install auditbeat
+class auditbeat::repo inherits auditbeat {
+  $apt_repo_url = $auditbeat::apt_repo_url ? {
+    undef => "https://artifacts.elastic.co/packages/${auditbeat::major_version}.x/apt",
+    default => $auditbeat::apt_repo_url,
+  }
+  $yum_repo_url = $auditbeat::yum_repo_url ? {
+    undef => "https://artifacts.elastic.co/packages/${auditbeat::major_version}.x/yum",
+    default => $auditbeat::yum_repo_url,
+  }
+  $gpg_key_url = $auditbeat::gpg_key_url ? {
+    undef => 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+    default => $auditbeat::gpg_key_url,
+  }
+
   if ($auditbeat::manage_repo == true) and ($auditbeat::ensure == 'present') {
     case $facts['osfamily'] {
       'Debian': {
@@ -12,27 +23,25 @@ class auditbeat::repo (
         if !defined(Apt::Source['beats']) {
           apt::source{'beats':
             ensure   => $auditbeat::ensure,
-            location => "https://artifacts.elastic.co/packages/${major_version}.x/apt",
+            location => $apt_repo_url,
             release  => 'stable',
             repos    => 'main',
             key      => {
               id     => '46095ACC8548582C1A2699A9D27D666CD88E42B4',
-              source => 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+              source => $gpg_key_url,
             },
           }
-          if $auditbeat::ensure == 'present' {
-            Class['apt::update'] -> Package['auditbeat']
-          }
+          Class['apt::update'] -> Package['auditbeat']
         }
       }
       'RedHat': {
         if !defined(Yumrepo['beats']) {
           yumrepo{'beats':
             ensure   => $auditbeat::ensure,
-            descr    => "Elastic repository for ${major_version}.x packages",
-            baseurl  => "https://artifacts.elastic.co/packages/${major_version}.x/yum",
+            descr    => "Elastic repository for ${auditbeat::major_version}.x packages",
+            baseurl  => $yum_repo_url,
             gpgcheck => 1,
-            gpgkey   => 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+            gpgkey   => $gpg_key_url,
             enabled  => 1,
           }
         }
@@ -45,12 +54,12 @@ class auditbeat::repo (
         }
         if !defined (Zypprepo['beats']) {
           zypprepo{'beats':
-            baseurl     => "https://artifacts.elastic.co/packages/${major_version}.x/yum",
+            baseurl     => $yum_repo_url,
             enabled     => 1,
             autorefresh => 1,
             name        => 'beats',
             gpgcheck    => 1,
-            gpgkey      => 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+            gpgkey      => $gpg_key_url,
             type        => 'yum',
           }
         }
