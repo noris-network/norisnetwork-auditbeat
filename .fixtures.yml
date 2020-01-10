@@ -3,9 +3,9 @@
 ---
 fixtures:
   forge_modules:
-     stdlib: "puppetlabs/stdlib"
-     apt: "puppetlabs/apt"
-     zypp: "puppet/zypprepo"
-     yumrepo: "puppetlabs/yumrepo_core"
+    stdlib: "puppetlabs/stdlib"
+    apt: "puppetlabs/apt"
+    zypprepo: "puppet/zypprepo"
+    yumrepo: "puppetlabs/yumrepo_core"
   symlinks:
-     auditbeat: "#{source_dir}"
+    auditbeat: "#{source_dir}"
