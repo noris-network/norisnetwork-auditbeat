@@ -1,8 +1,8 @@
 {
   "name": "norisnetwork-auditbeat",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "norisnetwork",
-  "summary": "This module installs and configures the Auditbeat shipper by Elastic.",
+  "summary": "Module for installing, managing and cinfiguring the Auditbeat lightweight shipper for audit data by elastic.",
   "license": "Apache-2.0",
   "source": "https://github.com/noris-network/norisnetwork-auditbeat",
   "project_page": "https://github.com/noris-network/norisnetwork-auditbeat",
@@ -66,8 +66,11 @@
   "tags": [
     "auditbeat",
     "elasticsearch",
+    "elastic_stack",
+    "elastic",
+    "norisnetwork",
     "logstash",
-    "elastic"
+    "kibana"
   ],
   "pdk-version": "1.15.0",
   "template-url": "pdk-default#1.15.0",
