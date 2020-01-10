@@ -39,7 +39,7 @@ parallel_spec-Ruby 2.4.5-Puppet ~> 5:
   variables:
     PUPPET_GEM_VERSION: '~> 5'
 
-parallel_spec-Ruby 2.1.9-Puppet ~> 5:
+parallel_spec-Ruby 2.1.9-Puppet ~> 4:
   stage: unit
   image: ruby:2.1.9
   script:
