@@ -70,6 +70,6 @@
     "elastic"
   ],
   "pdk-version": "1.15.0",
-  "template-url": "https://github.com/puppetlabs/pdk-templates",
+  "template-url": "pdk-default#1.15.0",
   "template-ref": "tags/1.15.0-0-g0bc522e"
 }
