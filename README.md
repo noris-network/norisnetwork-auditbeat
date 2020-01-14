@@ -1,21 +1,23 @@
-# auditbeat
+# norisnetwork-auditbeat
 
+[![Build Status](https://travis-ci.org/noris-network/norisnetwork-auditbeat.svg?branch=master)](https://travis-ci.org/noris-network/norisnetwork-auditbeat)
 
-#### Table of Contents
+## Table of Contents
 
 1. [Description](#description)
-2. [Setup - The basics of getting started with auditbeat](#setup)
+1. [Setup - The basics of getting started with auditbeat](#setup)
     * [What auditbeat affects](#what-auditbeat-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with auditbeat](#beginning-with-auditbeat)
-3. [Usage - Configuration options and additional functionality](#usage)
-4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+1. [Usage - Configuration options and additional functionality](#usage)
+1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+1. [Limitations - OS compatibility, etc.](#limitations)
+1. [Development - Guide for contributing to the module](#development)
 
 ## Description
 
-This module installs and configures the [Auditbeat shipper](https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-overview.html) by Elastic. It has been tested on Puppet 5.x and on the following OSes: Debian 9.1, CentOS 7.3, Ubuntu 16.04
+This is a Puppet module for installing, managing and configuring the [Auditbeat lightweight shipper](https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-overview.html) for audit data by elastic.
+It has been tested on Puppet 5.x and on the following OSes: Debian 9.1, CentOS 7.3, Ubuntu 16.04
 
 ## Setup
 
@@ -25,17 +27,17 @@ This module installs and configures the [Auditbeat shipper](https://www.elastic.
 
 ### Setup Requirements
 
-`auditbeat` needs `puppetlabs/stdlib`, `puppetlabs/apt` (for Debian and derivatives), `puppet/yum` (for RedHat or RedHat-like systems), `darin-zypprepo` (on SuSE based system)
+`auditbeat` needs `puppetlabs/stdlib`, `puppetlabs/apt` (for Debian and derivatives), `puppetlabs-yumrepo_core` (for RedHat or RedHat-like systems), `puppet-zypprepo` (on SuSE based systems)
 
 ### Beginning with auditbeat
 
-The module can be installed manually, typing `puppet module install noris-auditbeat`, or by means of an environment manager (r10k, librarian-puppet, ...).
+The module can be installed manually, typing `puppet module install norisnetwork-auditbeat`, or by means of an environment manager (r10k, librarian-puppet, ...).
 
-`auditbeat` requires at least the `outputs` and `modules` sections in order to start. Please refer to the software documentation to find out the [available modules] (https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-modules.html) and the [supported outputs] (https://www.elastic.co/guide/en/beats/auditbeat/current/configuring-output.html). On the other hand, the sections [logging] (https://www.elastic.co/guide/en/beats/auditbeat/current/configuration-logging.html) and [queue] (https://www.elastic.co/guide/en/beats/auditbeat/current/configuring-internal-queue.html) already contains meaningful default values.
+`auditbeat` requires at least the `outputs` and `modules` sections in order to start. Please refer to the software documentation to find out the [available modules](https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-modules.html) and the [supported outputs](https://www.elastic.co/guide/en/beats/auditbeat/current/configuring-output.html). On the other hand, the sections [logging](https://www.elastic.co/guide/en/beats/auditbeat/current/configuration-logging.html) and [queue](https://www.elastic.co/guide/en/beats/auditbeat/current/configuring-internal-queue.html) already contains meaningful default values.
 
 A basic setup configuring the `file_integrity` module to check some paths and writing the results directly in Elasticsearch.
 
-```puppet
+``` puppet
 class{'auditbeat':
     modules => [
       {
@@ -54,7 +56,7 @@ class{'auditbeat':
 
 The same example using Hiera:
 
-```
+``` yaml
 classes:
   include:
     - 'auditbeat'
@@ -82,7 +84,7 @@ The configuration is written to the configuration file `/etc/auditbeat/auditbeat
 
 Send data to two Redis servers, loadbalancing between the instances.
 
-```puppet
+``` puppet
 class{'auditbeat':
     modules => [
       {
@@ -98,9 +100,10 @@ class{'auditbeat':
       },
     },
 ```
+
 or, using Hiera
 
-```
+``` yaml
 classes:
   include:
     - 'auditbeat'
@@ -122,9 +125,10 @@ auditbeat::outputs:
       - 'itger:redis:6379'
     index: 'auditbeat'
 ```
+
 Add the `auditd` module to the configuration, specifying a rule to detect 32 bit system calls. Output to Elasticsearch.
 
-```puppet
+``` puppet
 class{'auditbeat':
     modules => [
       {
@@ -145,9 +149,10 @@ class{'auditbeat':
       },
     },
 ```
+
 In Hiera format it would look like:
 
-```
+``` yaml
 classes:
   include:
     - 'auditbeat'
@@ -173,17 +178,15 @@ auditbeat::outputs:
     index: "auditbeat-%%{}{+YYYY.MM.dd}"
 ```
 
-
 ## Reference
 
 * [Public Classes](#public-classes)
-	* [Class: auditbeat](#class-auditbeat)
+  * [Class: auditbeat](#class-auditbeat)
 * [Private Classes](#private-classes)
-	* [Class: auditbeat::repo](#class-auditbeat-repo)
-	* [Class: auditbeat::install](#class-auditbeat-install)
-	* [Class: auditbeat::config](#class-auditbeat-config)
-	* [Class: auditbeat::service](#class-auditbeat-service)
-
+  * [Class: auditbeat::repo](#class-auditbeat-repo)
+  * [Class: auditbeat::install](#class-auditbeat-install)
+  * [Class: auditbeat::config](#class-auditbeat-config)
+  * [Class: auditbeat::service](#class-auditbeat-service)
 
 ### Public Classes
 
@@ -197,15 +200,15 @@ Installation and configuration.
 * `fields_under_root`: [Boolean] whether to add the custom fields to the root of the document (default is *false*).
 * `queue`: [Hash] auditbeat's internal queue, before the events publication (default is *4096* events in *memory* with immediate flush).
 * `logging`: [Hash] the auditbeat's logfile configuration (default: writes to `/var/log/auditbeat/auditbeat`, maximum 7 files, rotated when bigger than 10 MB).
-* `outputs`: [Hash] the options of the mandatory [outputs] (https://www.elastic.co/guide/en/beats/auditbeat/current/configuring-output.html) section of the configuration file (default: undef).
+* `outputs`: [Hash] the options of the mandatory [outputs](https://www.elastic.co/guide/en/beats/auditbeat/current/configuring-output.html) section of the configuration file (default: undef).
 * `major_version`: [Enum] the major version of the package to install (default: '6', the only accepted value. Implemented for future reference).
 * `ensure`: [Enum 'present', 'absent']: whether Puppet should manage `auditbeat` or not (default: 'present').
 * `service_provider`: [Enum 'systemd', 'init', 'debian', 'redhat', 'upstart', undef] which boot framework to use to install and manage the service (default: undef).
 * `service_ensure`: [Enum 'enabled', 'running', 'disabled', 'unmanaged'] the status of the audit service (default 'enabled'). In more details:
-	* *enabled*: service is running and started at every boot;
-	* *running*: service is running but not started at boot time;
-	* *disabled*: service is not running and not started at boot time;
-	* *unamanged*: Puppet does not manage the service.
+  * *enabled*: service is running and started at every boot;
+  * *running*: service is running but not started at boot time;
+  * *disabled*: service is not running and not started at boot time;
+  * *unamanged*: Puppet does not manage the service.
 * `package_ensure`: [String] the package version to install. It could be 'latest' (for the newest release) or a specific version number, in the format *x.y.z*, i.e., *6.2.0* (default: latest).
 * `manage_repo`: [Boolean] whether to add the elastic upstream repo to the package manager (default: true).
 * `config_file_mode`: [String] the octal file mode of the configuration file `/etc/auditbeat/auditbeat.yml` (default: 0644).
@@ -213,30 +216,32 @@ Installation and configuration.
 * `tags`: [Array[Strings]]: the tags to add to each document (default: undef).
 * `fields`: [Hash] the fields to add to each document (default: undef).
 * `xpack`: [Hash] the configuration to export internal metrics to an Elasticsearch monitoring instance  (default: undef).
-* `modules`: [Array[Hash]] the required [modules] (https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-modules.html) to load (default: undef).
-* `processors`: [Array[Hash]] the optional [processors] (https://www.elastic.co/guide/en/beats/auditbeat/current/defining-processors.html) for event enhancement (default: undef).
+* `modules`: [Array[Hash]] the required [modules](https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-modules.html) to load (default: undef).
+* `processors`: [Array[Hash]] the optional [processors](https://www.elastic.co/guide/en/beats/auditbeat/current/defining-processors.html) for event enhancement (default: undef).
 
 ### Private Classes
 
 #### Class: `auditbeat::repo`
+
 Configuration of the package repository to fetch auditbeat.
 
 #### Class: `auditbeat::install`
+
 Installation of the auditbeat package.
 
 #### Class: `auditbeat::config`
+
 Configuration of the auditbeat daemon.
 
 #### Class: `auditbeat::service`
-Management of the auditbeat service.
 
+Management of the auditbeat service.
 
 ## Limitations
 
-This module does not load the index template in Elasticsearch nor the auditbeat example dashboards in Kibana. These two tasks should be carried out manually. Please follow the documentation to [manually load the index template in Elasticsearch] (https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-template.html#load-template-manually-alternate) and to [import the auditbeat dashboards in Kibana] (https://www.elastic.co/guide/en/beats/devguide/6.2/import-dashboards.html).
+This module does not load the index template in Elasticsearch nor the auditbeat example dashboards in Kibana. These two tasks should be carried out manually. Please follow the documentation to [manually load the index template in Elasticsearch](https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-template.html#load-template-manually-alternate) and to [import the auditbeat dashboards in Kibana](https://www.elastic.co/guide/en/beats/devguide/6.2/import-dashboards.html).
 
 The option `manage_repo` does not remove the repo file, even if set to *false*. Please delete it manually.
-
 
 ## Development
 
