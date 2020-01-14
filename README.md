@@ -1,6 +1,6 @@
 # norisnetwork-auditbeat
 
-[![Build Status](https://travis-ci.org/noris-network/norisnetwork-auditbeat.svg?branch=master)](https://travis-ci.org/noris-network/norisnetwork-auditbeat)
+![Travis (.org)](https://img.shields.io/travis/noris-network/norisnetwork-auditbeat) [![GitHub license](https://img.shields.io/github/license/noris-network/norisnetwork-auditbeat)](https://github.com/noris-network/norisnetwork-auditbeat/blob/master/LICENSE) ![GitHub repo size](https://img.shields.io/github/repo-size/noris-network/norisnetwork-auditbeat) ![Puppet Forge version](https://img.shields.io/puppetforge/v/norisnetwork/auditbeat) ![Puppet Forge – PDK version](https://img.shields.io/puppetforge/pdk-version/norisnetwork/auditbeat)
 
 ## Table of Contents
 
