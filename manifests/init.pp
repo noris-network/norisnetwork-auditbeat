@@ -80,9 +80,9 @@ class auditbeat (
   Enum['present', 'absent'] $ensure                                                   = 'present',
   Optional[Enum['systemd', 'init', 'debian', 'redhat', 'upstart']] $service_provider  = undef,
   Boolean $manage_repo                                                                = true,
-  Optional[Variant[Stdlib::HTTPUrl, Stdlib::HTTPSUrl]] $apt_repo_url  = undef,
-  Optional[Variant[Stdlib::HTTPUrl, Stdlib::HTTPSUrl]] $yum_repo_url  = undef,
-  Optional[Variant[Stdlib::HTTPUrl, Stdlib::HTTPSUrl]] $gpg_key_url   = undef,
+  Optional[Variant[Stdlib::HTTPUrl, Stdlib::HTTPSUrl]] $apt_repo_url                  = undef,
+  Optional[Variant[Stdlib::HTTPUrl, Stdlib::HTTPSUrl]] $yum_repo_url                  = undef,
+  Optional[Variant[Stdlib::HTTPUrl, Stdlib::HTTPSUrl]] $gpg_key_url                   = undef,
   Enum['enabled', 'running', 'disabled', 'unmanaged'] $service_ensure                 = 'enabled',
   String $package_ensure                                                              = 'latest',
   String $config_file_mode                                                            = '0644',
@@ -92,6 +92,7 @@ class auditbeat (
   Optional[Array[Hash]] $modules                                                      = undef,
   Optional[Array[Hash]] $processors                                                   = undef,
   Optional[Hash] $xpack                                                               = undef,
+  Optional[Hash] $monitoring                                                          = undef,
   Optional[Hash] $setup                                                               = undef,
 ) {
 
