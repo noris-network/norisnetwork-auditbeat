@@ -15,6 +15,10 @@ class auditbeat::repo inherits auditbeat {
     undef => 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
     default => $auditbeat::gpg_key_url,
   }
+  $gpg_key_id = $auditbeat::gpg_key_id ? {
+    undef => '46095ACC8548582C1A2699A9D27D666CD88E42B4',
+    default => $auditbeat::gpg_key_id,
+  }
 
   if ($auditbeat::manage_repo == true) and ($auditbeat::ensure == 'present') {
     case $facts['osfamily'] {
@@ -27,7 +31,7 @@ class auditbeat::repo inherits auditbeat {
             release  => 'stable',
             repos    => 'main',
             key      => {
-              id     => '46095ACC8548582C1A2699A9D27D666CD88E42B4',
+              id     => $gpg_key_id,
               source => $gpg_key_url,
             },
           }
@@ -47,9 +51,9 @@ class auditbeat::repo inherits auditbeat {
         }
       }
       'SuSe': {
-        exec { 'topbeat_suse_import_gpg':
-          command => '/usr/bin/rpmkeys --import https://artifacts.elastic.co/GPG-KEY-elasticsearch',
-          unless  => '/usr/bin/test $(rpm -qa gpg-pubkey | grep -i "D88E42B4" | wc -l) -eq 1 ',
+        exec { 'suse_import_gpg':
+          command => "/usr/bin/rpmkeys --import ${gpg_key_url}",
+          unless  => "/usr/bin/test $(rpm -qa gpg-pubkey | grep -i \"${gpg_key_id}\" | wc -l) -eq 1",
           notify  => [ Zypprepo['beats'] ],
         }
         if !defined (Zypprepo['beats']) {
