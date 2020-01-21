@@ -16,7 +16,7 @@ class auditbeat::repo inherits auditbeat {
     default => $auditbeat::gpg_key_url,
   }
   $gpg_key_id = $auditbeat::gpg_key_id ? {
-    undef => '46095ACC8548582C1A2699A9D27D666CD88E42B4',
+    '' => '46095ACC8548582C1A2699A9D27D666CD88E42B4',
     default => $auditbeat::gpg_key_id,
   }
 
