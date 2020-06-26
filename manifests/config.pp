@@ -22,6 +22,7 @@ class auditbeat::config {
     'output'                    => $auditbeat::outputs,
     'processors'                => $auditbeat::processors,
     'setup'                     => $auditbeat::setup,
+    'http'                      => $auditbeat::http,
     'auditbeat'                 => {
       'modules'                 => $auditbeat::modules,
     },
