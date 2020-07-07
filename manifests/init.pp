@@ -95,6 +95,7 @@ class auditbeat (
   Optional[Hash] $xpack                                                               = undef,
   Optional[Hash] $monitoring                                                          = undef,
   Optional[Hash] $setup                                                               = undef,
+  Optional[Hash] $additional_config                                                   = {},
 ) {
 
   contain auditbeat::repo

@@ -27,12 +27,14 @@ class auditbeat::config {
     },
   })
 
+  $merged_config = deep_merge($auditbeat_config, $auditbeat::additional_config)
+
   file { '/etc/auditbeat/auditbeat.yml':
     ensure       => $auditbeat::ensure,
     owner        => 'root',
     group        => 'root',
     mode         => $auditbeat::config_file_mode,
-    content      => inline_template('<%= @auditbeat_config.to_yaml()  %>'),
+    content      => inline_template('<%= @merged_config.to_yaml()  %>'),
     validate_cmd => $validate_cmd,
   }
 }
