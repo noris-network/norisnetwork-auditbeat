@@ -178,6 +178,14 @@ auditbeat::outputs:
     index: "auditbeat-%%{}{+YYYY.MM.dd}"
 ```
 
+## pass additional options to config like "http endpoint metrics"
+
+``` yaml
+auditbeat::additional_config:
+  http.enabled: true
+  http.host: 10.0.0.1
+```
+
 ## Reference
 
 * [Public Classes](#public-classes)
@@ -215,9 +223,12 @@ Installation and configuration.
 * `disable_configtest`: [Boolean] whether to check if the configuration file is valid before attempting to run the service (default: true).
 * `tags`: [Array[Strings]]: the tags to add to each document (default: undef).
 * `fields`: [Hash] the fields to add to each document (default: undef).
-* `xpack`: [Hash] the configuration to export internal metrics to an Elasticsearch monitoring instance  (default: undef).
+* `xpack`: [Hash] the configuration to export internal metrics to an Elasticsearch monitoring instance (default: undef).
+* `monitoring`: [Hash] the configuration to export internal metrics to an Elasticsearch monitoring instance since Version 7.x (default: undef).
 * `modules`: [Array[Hash]] the required [modules](https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-modules.html) to load (default: undef).
 * `processors`: [Array[Hash]] the optional [processors](https://www.elastic.co/guide/en/beats/auditbeat/current/defining-processors.html) for event enhancement (default: undef).
+* `setup`: [Hash] setup the configuration of the setup namespace (kibana, dashboards, template, etc.)(default: undef).
+* `additional_config` : [Hash] pass additional options to config like "http endpoint metrics"
 
 ### Private Classes
 
@@ -239,7 +250,7 @@ Management of the auditbeat service.
 
 ## Limitations
 
-This module does not load the index template in Elasticsearch nor the auditbeat example dashboards in Kibana. These two tasks should be carried out manually. Please follow the documentation to [manually load the index template in Elasticsearch](https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-template.html#load-template-manually-alternate) and to [import the auditbeat dashboards in Kibana](https://www.elastic.co/guide/en/beats/devguide/6.2/import-dashboards.html).
+This module does not load the index template in Elasticsearch nor the auditbeat example dashboards in Kibana. These two tasks should be carried out manually. Please follow the documentation to [manually load the index template in Elasticsearch](https://www.elastic.co/guide/en/beats/auditbeat/current/auditbeat-template.html#load-template-manually-alternate) and to [import the auditbeat dashboards in Kibana](https://www.elastic.co/guide/en/beats/devguide/7.8/import-dashboards.html).
 
 The option `manage_repo` does not remove the repo file, even if set to *false*. Please delete it manually.
 
