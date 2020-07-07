@@ -122,7 +122,7 @@ auditbeat::outputs:
   elasticsearch:
     hosts:
       - 'localhost:6379'
-      - 'itger:redis:6379'
+      - 'other_redis:6379'
     index: 'auditbeat'
 ```
 
