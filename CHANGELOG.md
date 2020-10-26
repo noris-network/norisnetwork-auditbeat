@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v1.0.0](https://github.com/noris-network/norisnetwork-auditbeat/tree/v1.0.0) (2020-10-26)
+
+[Full Changelog](https://github.com/noris-network/norisnetwork-auditbeat/compare/v0.2.5...v1.0.0)
+
+### Removed
+
+- removed **xpack** in favor of **monitoring**. Differentiating between using xpack and monitoring is now done by the module directly.
+
+### Fixed
+
+- prevent the module from failing due to auditbeat_version-fact not being available on the first run
+
 ## [v0.2.5](https://github.com/noris-network/norisnetwork-auditbeat/tree/v0.2.5) (2020-06-07)
 
 [Full Changelog](https://github.com/noris-network/norisnetwork-auditbeat/compare/v0.2.1...v0.2.5)
@@ -16,7 +28,7 @@ All notable changes to this project will be documented in this file. The format 
 
 # Added
 
-- added **support for additional configuration keys** 
+- added **support for additional configuration keys**
 - Puppet version 4 testing removed
 
 ## [v0.2.3](https://github.com/noris-network/norisnetwork-auditbeat/tree/v0.2.3) (2020-04-07)

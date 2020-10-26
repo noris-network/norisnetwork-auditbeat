@@ -1,6 +1,6 @@
 {
   "name": "norisnetwork-auditbeat",
-  "version": "0.2.5",
+  "version": "1.0.0",
   "author": "norisnetwork",
   "summary": "Module for installing, managing and configuring the Auditbeat lightweight shipper for audit data by elastic.",
   "license": "Apache-2.0",
