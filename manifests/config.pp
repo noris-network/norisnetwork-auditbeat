@@ -33,7 +33,7 @@ class auditbeat::config {
     'processors'                => $auditbeat::processors,
     'setup'                     => $auditbeat::setup,
     'auditbeat'                 => {
-      'modules'                 => $modules_array,
+      'modules'                 => $modules_arr,
     },
   })
 
