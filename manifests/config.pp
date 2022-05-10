@@ -31,15 +31,19 @@ class auditbeat::config {
     fail('Setting both xpack and monitoring is not supported!')
   }
 
-  # Add the 'xpack' section if supported (version >= 6.2.0)
-  if (versioncmp($facts['auditbeat_version'], '7.2.0') >= 0) and ($auditbeat::monitoring) {
-    $merged_config = deep_merge($auditbeat_config_temp, {'monitoring' => $auditbeat::monitoring})
-  }
-  elsif (versioncmp($facts['auditbeat_version'], '6.2.0') >= 0) and ($auditbeat::xpack) {
-    $merged_config = deep_merge($auditbeat_config_temp, {'xpack' => $auditbeat::xpack})
-  }
-  else {
-    $merged_config = $auditbeat_config_temp
+  if Integer($auditbeat::major_version) < 8 {
+    # Add the 'xpack' section if supported (version >= 6.2.0)
+    if (versioncmp($facts['auditbeat_version'], '7.2.0') >= 0) and ($auditbeat::monitoring) {
+      $merged_config = deep_merge($auditbeat_config_temp, {'monitoring' => $auditbeat::monitoring})
+    }
+    elsif (versioncmp($facts['auditbeat_version'], '6.2.0') >= 0) and ($auditbeat::xpack) {
+      $merged_config = deep_merge($auditbeat_config_temp, {'xpack' => $auditbeat::xpack})
+    }
+    else {
+      $merged_config = $auditbeat_config_temp
+    }
+  } else {
+      $merged_config = $auditbeat_config_temp
   }
 
   file { '/etc/auditbeat/auditbeat.yml':
