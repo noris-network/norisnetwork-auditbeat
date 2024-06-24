@@ -45,7 +45,7 @@
 # @param setup the configuration of the setup namespace (kibana, dashboards, template, etc.)
 #
 class auditbeat (
-  String $beat_name                                                   = $::hostname,
+  String $beat_name                                                   = $facts['networking']['hostname'],
   Boolean $fields_under_root                                          = false,
   Hash $queue                                                         = {
     'mem' => {
