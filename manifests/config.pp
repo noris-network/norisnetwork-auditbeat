@@ -43,7 +43,11 @@ class auditbeat::config {
       $merged_config = $auditbeat_config_temp
     }
   } else {
+    if $auditbeat::monitoring {
+      $merged_config = deep_merge($auditbeat_config_temp, {'monitoring' => $auditbeat::monitoring})
+    } else {
       $merged_config = $auditbeat_config_temp
+    }
   }
 
   file { '/etc/auditbeat/auditbeat.yml':
