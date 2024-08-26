@@ -21,7 +21,7 @@ class auditbeat::repo inherits auditbeat {
   }
 
   if ($auditbeat::manage_repo == true) and ($auditbeat::ensure == 'present') {
-    case $facts['osfamily'] {
+    case $facts['os']['family'] {
       'Debian': {
         include ::apt
         if !defined(Apt::Source['beats']) {
