@@ -72,7 +72,7 @@
     "logstash",
     "kibana"
   ],
-  "pdk-version": "1.18.0",
-  "template-url": "pdk-default#1.18.0",
-  "template-ref": "tags/1.18.0-0-g095317c"
+  "pdk-version": "3.3.0",
+  "template-url": "pdk-default#3.3.0",
+  "template-ref": "tags/3.3.0-0-g5d17ec1"
 }
