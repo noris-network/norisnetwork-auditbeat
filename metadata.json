@@ -1,6 +1,6 @@
 {
   "name": "norisnetwork-auditbeat",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "author": "norisnetwork",
   "summary": "Module for installing, managing and configuring the Auditbeat lightweight shipper for audit data by elastic.",
   "license": "Apache-2.0",
@@ -10,44 +10,44 @@
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 4.13.0 < 7.0.0"
+      "version_requirement": ">= 4.13.0 < 9.6.0"
     },
     {
       "name": "puppetlabs-apt",
-      "version_requirement": ">= 2.0.0 < 8.0.0"
+      "version_requirement": ">= 2.0.0 < 9.4.0"
     },
     {
       "name": "puppet-zypprepo",
-      "version_requirement": ">= 2.0.0 < 3.0.0"
+      "version_requirement": ">= 2.0.0 < 5.0.0"
     },
     {
       "name": "puppetlabs-yumrepo_core",
-      "version_requirement": ">= 1.0.0 < 2.0.0"
+      "version_requirement": ">= 1.0.0 < 2.1.0"
     }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "7"
+        "8"
       ]
     },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "7"
+        "9"
       ]
     },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "9"
+        "12"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "18.04"
+        "24.04"
       ]
     },
     {
@@ -60,7 +60,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 5.0.0 < 7.0.0"
+      "version_requirement": ">= 5.0.0 < 8.0.0"
     }
   ],
   "tags": [
