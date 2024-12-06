@@ -10,6 +10,18 @@ class auditbeat::config {
     default => "${auditbeat_bin} test config -c %",
   }
 
+  # Use lookup to merge auditbeat::modules config from different levels of hiera
+  $modules_lookup = lookup('auditbeat::modules', undef, 'unique', undef)
+  # Check to see if anything has been confiugred in hiera
+  if $modules_lookup {
+    $modules_arr = $modules_lookup
+  # check if array is empty, no need to create a config entry then
+  } elsif $auditbeat::modules[0].length() > 0 {
+    $modules_arr = $auditbeat::modules
+  } else {
+    $modules_arr = undef
+  }
+
   $auditbeat_config = delete_undef_values({
     'name'                      => $auditbeat::beat_name ,
     'fields_under_root'         => $auditbeat::fields_under_root,
@@ -21,7 +33,7 @@ class auditbeat::config {
     'processors'                => $auditbeat::processors,
     'setup'                     => $auditbeat::setup,
     'auditbeat'                 => {
-      'modules'                 => $auditbeat::modules,
+      'modules'                 => $modules_arr,
     },
   })
 
