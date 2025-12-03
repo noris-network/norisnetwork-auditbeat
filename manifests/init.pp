@@ -97,7 +97,6 @@ class auditbeat (
   Optional[Hash] $setup                                                               = undef,
   Optional[Hash] $additional_config                                                   = {},
 ) {
-
   contain auditbeat::repo
   contain auditbeat::install
   contain auditbeat::config

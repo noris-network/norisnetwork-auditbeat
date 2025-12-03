@@ -23,9 +23,9 @@ class auditbeat::repo inherits auditbeat {
   if ($auditbeat::manage_repo == true) and ($auditbeat::ensure == 'present') {
     case $facts['os']['family'] {
       'Debian': {
-        include ::apt
+        include apt
         if !defined(Apt::Source['beats']) {
-          apt::source{'beats':
+          apt::source { 'beats':
             ensure   => $auditbeat::ensure,
             location => $apt_repo_url,
             release  => 'stable',
@@ -40,7 +40,7 @@ class auditbeat::repo inherits auditbeat {
       }
       'RedHat': {
         if !defined(Yumrepo['beats']) {
-          yumrepo{'beats':
+          yumrepo { 'beats':
             ensure   => $auditbeat::ensure,
             descr    => "Elastic repository for ${auditbeat::major_version}.x packages",
             baseurl  => $yum_repo_url,
@@ -54,10 +54,10 @@ class auditbeat::repo inherits auditbeat {
         exec { 'suse_import_gpg':
           command => "/usr/bin/rpmkeys --import ${gpg_key_url}",
           unless  => "/usr/bin/test $(rpm -qa gpg-pubkey | grep -i \"${gpg_key_id}\" | wc -l) -eq 1",
-          notify  => [ Zypprepo['beats'] ],
+          notify  => [Zypprepo['beats']],
         }
         if !defined (Zypprepo['beats']) {
-          zypprepo{'beats':
+          zypprepo { 'beats':
             baseurl     => $yum_repo_url,
             enabled     => 1,
             autorefresh => 1,

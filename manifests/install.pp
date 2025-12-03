@@ -11,7 +11,7 @@ class auditbeat::install {
       $package_ensure = $auditbeat::ensure
     }
   }
-  package{'auditbeat':
+  package { 'auditbeat':
     ensure => $package_ensure,
   }
 }
