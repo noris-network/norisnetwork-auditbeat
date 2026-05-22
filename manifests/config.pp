@@ -15,7 +15,7 @@ class auditbeat::config {
   # Check to see if anything has been confiugred in hiera
   if $modules_lookup {
     $modules_arr = $modules_lookup
-  # check if array is empty, no need to create a config entry then
+    # check if array is empty, no need to create a config entry then
   } elsif $auditbeat::modules[0].length() > 0 {
     $modules_arr = $auditbeat::modules
   } else {
@@ -23,18 +23,18 @@ class auditbeat::config {
   }
 
   $auditbeat_config = delete_undef_values({
-    'name'                      => $auditbeat::beat_name ,
-    'fields_under_root'         => $auditbeat::fields_under_root,
-    'fields'                    => $auditbeat::fields,
-    'tags'                      => $auditbeat::tags,
-    'queue'                     => $auditbeat::queue,
-    'logging'                   => $auditbeat::logging,
-    'output'                    => $auditbeat::outputs,
-    'processors'                => $auditbeat::processors,
-    'setup'                     => $auditbeat::setup,
-    'auditbeat'                 => {
-      'modules'                 => $modules_arr,
-    },
+      'name'                      => $auditbeat::beat_name ,
+      'fields_under_root'         => $auditbeat::fields_under_root,
+      'fields'                    => $auditbeat::fields,
+      'tags'                      => $auditbeat::tags,
+      'queue'                     => $auditbeat::queue,
+      'logging'                   => $auditbeat::logging,
+      'output'                    => $auditbeat::outputs,
+      'processors'                => $auditbeat::processors,
+      'setup'                     => $auditbeat::setup,
+      'auditbeat'                 => {
+        'modules'                 => $modules_arr,
+      },
   })
 
   $auditbeat_config_temp = deep_merge($auditbeat_config, $auditbeat::additional_config)
@@ -46,17 +46,17 @@ class auditbeat::config {
   if Integer($auditbeat::major_version) < 8 {
     # Add the 'xpack' section if supported (version >= 6.2.0)
     if (versioncmp($facts['auditbeat_version'], '7.2.0') >= 0) and ($auditbeat::monitoring) {
-      $merged_config = deep_merge($auditbeat_config_temp, {'monitoring' => $auditbeat::monitoring})
+      $merged_config = deep_merge($auditbeat_config_temp, { 'monitoring' => $auditbeat::monitoring })
     }
     elsif (versioncmp($facts['auditbeat_version'], '6.2.0') >= 0) and ($auditbeat::xpack) {
-      $merged_config = deep_merge($auditbeat_config_temp, {'xpack' => $auditbeat::xpack})
+      $merged_config = deep_merge($auditbeat_config_temp, { 'xpack' => $auditbeat::xpack })
     }
     else {
       $merged_config = $auditbeat_config_temp
     }
   } else {
     if $auditbeat::monitoring {
-      $merged_config = deep_merge($auditbeat_config_temp, {'monitoring' => $auditbeat::monitoring})
+      $merged_config = deep_merge($auditbeat_config_temp, { 'monitoring' => $auditbeat::monitoring })
     } else {
       $merged_config = $auditbeat_config_temp
     }

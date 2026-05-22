@@ -29,7 +29,7 @@ class auditbeat::service {
     $service_enabled = false
   }
 
-  service {'auditbeat':
+  service { 'auditbeat':
     ensure   => $service_status,
     enable   => $service_enabled,
     provider => $auditbeat::service_provider,
