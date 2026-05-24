@@ -109,13 +109,11 @@ class auditbeat (
 
   case $ensure {
     'present': {
-      -> Class['auditbeat::config']
-      -> Class['auditbeat::service']
-
       Class['auditbeat::install']
+      -> Class['auditbeat::config']
       ~> Class['auditbeat::service']
 
-      Class['auditbeat::config']
+      Class['auditbeat::install']
       ~> Class['auditbeat::service']
     }
     default: {
